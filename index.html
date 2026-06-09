@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FitAI - Your Personal AI Fitness Coach</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">F</div>
+          <div>
+            <strong>FitAI</strong>
+            <span>AI Fitness Coach</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="dashboard" type="button">
+            <span aria-hidden="true">D</span>
+            Dashboard
+          </button>
+          <button class="nav-item" data-view="assessment" type="button">
+            <span aria-hidden="true">A</span>
+            Assessment
+          </button>
+          <button class="nav-item" data-view="workouts" type="button">
+            <span aria-hidden="true">W</span>
+            Workouts
+          </button>
+          <button class="nav-item" data-view="nutrition" type="button">
+            <span aria-hidden="true">N</span>
+            Nutrition
+          </button>
+          <button class="nav-item" data-view="progress" type="button">
+            <span aria-hidden="true">P</span>
+            Progress
+          </button>
+          <button class="nav-item" data-view="coach" type="button">
+            <span aria-hidden="true">C</span>
+            AI Coach
+          </button>
+          <button class="nav-item" data-view="subscriptions" type="button">
+            <span aria-hidden="true">$</span>
+            Plans
+          </button>
+          <button class="nav-item" data-view="admin" type="button">
+            <span aria-hidden="true">M</span>
+            Admin
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <span class="status-dot"></span>
+          AI personalization active
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Your Personal AI Fitness Coach</p>
+            <h1 id="view-title">Dashboard</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-button" type="button" title="Workout reminder" aria-label="Workout reminder">T</button>
+            <button class="icon-button" type="button" title="Hydration alert" aria-label="Hydration alert">H</button>
+            <div class="profile-chip">
+              <span>AR</span>
+              <strong>Aarav</strong>
+            </div>
+          </div>
+        </header>
+
+        <section class="view active" id="dashboard" data-title="Dashboard">
+          <div class="hero-panel">
+            <div class="hero-copy">
+              <p class="eyebrow">Today, 9 June</p>
+              <h2>Strength session tuned for fat loss and lean muscle.</h2>
+              <p>FitAI adjusted today's plan using your sleep score, equipment access, recent soreness, and 42-minute workout window.</p>
+              <div class="hero-actions">
+                <button class="primary-action" type="button">Start Workout</button>
+                <button class="secondary-action" type="button">Ask Coach</button>
+              </div>
+            </div>
+            <div class="coach-visual" role="img" aria-label="Workout analytics preview">
+              <div class="pulse-ring"></div>
+              <div class="metric-orbit orbit-one">HR 128</div>
+              <div class="metric-orbit orbit-two">Form 92%</div>
+              <div class="avatar-core">AI</div>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-card">
+              <span>Calories Burned</span>
+              <strong>684</strong>
+              <small>86% of daily goal</small>
+            </article>
+            <article class="metric-card">
+              <span>Water Intake</span>
+              <strong>2.1 L</strong>
+              <small>900 ml remaining</small>
+            </article>
+            <article class="metric-card">
+              <span>Workout Streak</span>
+              <strong>18 days</strong>
+              <small>Best streak this year</small>
+            </article>
+            <article class="metric-card">
+              <span>Protein Target</span>
+              <strong>118 g</strong>
+              <small>32 g left today</small>
+            </article>
+          </div>
+
+          <div class="two-column">
+            <section class="panel">
+              <div class="section-heading">
+                <h3>Daily Goals</h3>
+                <button class="text-button" type="button">Edit</button>
+              </div>
+              <div class="goal-list">
+                <div class="goal-row">
+                  <span>Workout completion</span>
+                  <progress value="68" max="100"></progress>
+                  <strong>68%</strong>
+                </div>
+                <div class="goal-row">
+                  <span>Steps</span>
+                  <progress value="74" max="100"></progress>
+                  <strong>8,920</strong>
+                </div>
+                <div class="goal-row">
+                  <span>Mobility</span>
+                  <progress value="35" max="100"></progress>
+                  <strong>7 min</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="section-heading">
+                <h3>AI Recommendation</h3>
+                <span class="pill">Personalized</span>
+              </div>
+              <p class="recommendation">Swap barbell squats for goblet squats today because your lower-back fatigue score is elevated. Keep reps slow and cap RPE at 7.</p>
+              <div class="compact-stack">
+                <span>Next reminder: 6:30 PM</span>
+                <span>Suggested hydration: 450 ml before training</span>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="assessment" data-title="AI Fitness Assessment">
+          <div class="form-layout">
+            <section class="panel profile-panel">
+              <div class="section-heading">
+                <h3>Profile Setup</h3>
+                <span class="pill">Secure</span>
+              </div>
+              <form class="profile-form">
+                <label>Age <input type="number" value="29" min="13" /></label>
+                <label>Gender
+                  <select>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Non-binary</option>
+                    <option>Prefer not to say</option>
+                  </select>
+                </label>
+                <label>Height <input type="text" value="178 cm" /></label>
+                <label>Weight <input type="text" value="82 kg" /></label>
+                <label>Goal
+                  <select>
+                    <option>Fat loss + muscle tone</option>
+                    <option>Muscle gain</option>
+                    <option>Strength training</option>
+                    <option>Cardio endurance</option>
+                    <option>Yoga and mobility</option>
+                  </select>
+                </label>
+                <label>Activity Level
+                  <select>
+                    <option>Moderately active</option>
+                    <option>Beginner</option>
+                    <option>Advanced</option>
+                  </select>
+                </label>
+                <label>Diet Preference
+                  <select>
+                    <option>High-protein vegetarian</option>
+                    <option>Balanced</option>
+                    <option>Vegan</option>
+                    <option>Keto-aware</option>
+                  </select>
+                </label>
+                <label>Health Considerations <textarea>Occasional lower-back tightness. Avoid high-impact plyometrics.</textarea></label>
+              </form>
+            </section>
+
+            <section class="panel assessment-output">
+              <div class="section-heading">
+                <h3>AI Plan Summary</h3>
+                <button class="primary-action compact" id="regenerate-plan" type="button">Regenerate</button>
+              </div>
+              <div class="score-ring">
+                <strong>82</strong>
+                <span>Readiness</span>
+              </div>
+              <ul class="insight-list">
+                <li>Training split: 4 strength days, 2 cardio days, 1 recovery day.</li>
+                <li>Calories: 2,180 kcal with 140 g protein and moderate carbs.</li>
+                <li>Equipment: dumbbells, resistance bands, treadmill, yoga mat.</li>
+                <li>Session length: 38-45 minutes with 8-minute mobility block.</li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="workouts" data-title="Workout Management">
+          <div class="section-heading">
+            <h3>Programs</h3>
+            <div class="segmented-control" aria-label="Workout level">
+              <button class="active" type="button">Beginner</button>
+              <button type="button">Intermediate</button>
+              <button type="button">Advanced</button>
+            </div>
+          </div>
+          <div class="workout-grid">
+            <article class="workout-card">
+              <div class="workout-media strength"></div>
+              <div>
+                <span class="pill">Strength</span>
+                <h3>Full Body Builder</h3>
+                <p>Dumbbell press, goblet squat, row, dead bug, farmer carry.</p>
+                <div class="workout-meta">
+                  <span>4 sets</span>
+                  <span>42 min</span>
+                  <span>Gym/Home</span>
+                </div>
+              </div>
+            </article>
+            <article class="workout-card">
+              <div class="workout-media cardio"></div>
+              <div>
+                <span class="pill">Cardio</span>
+                <h3>Zone 2 Endurance</h3>
+                <p>Treadmill intervals with heart-rate guided recovery blocks.</p>
+                <div class="workout-meta">
+                  <span>7 rounds</span>
+                  <span>35 min</span>
+                  <span>Video</span>
+                </div>
+              </div>
+            </article>
+            <article class="workout-card">
+              <div class="workout-media yoga"></div>
+              <div>
+                <span class="pill">Mobility</span>
+                <h3>Lower Back Reset</h3>
+                <p>Breathing, hip flexor release, cat-cow, hamstring flossing.</p>
+                <div class="workout-meta">
+                  <span>8 moves</span>
+                  <span>18 min</span>
+                  <span>Voice</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <section class="panel exercise-panel">
+            <div class="section-heading">
+              <h3>Exercise Instructions</h3>
+              <span class="pill">Camera form correction ready</span>
+            </div>
+            <div class="exercise-table">
+              <div class="table-row head"><span>Exercise</span><span>Sets</span><span>Reps</span><span>Coach Cue</span></div>
+              <div class="table-row"><span>Goblet Squat</span><span>4</span><span>10</span><span>Knees track over toes, chest tall.</span></div>
+              <div class="table-row"><span>Dumbbell Row</span><span>3</span><span>12</span><span>Pause at rib cage for one second.</span></div>
+              <div class="table-row"><span>Incline Push-up</span><span>3</span><span>AMRAP</span><span>Keep ribs down and neck neutral.</span></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="nutrition" data-title="Nutrition & Diet Planner">
+          <div class="nutrition-layout">
+            <section class="panel macro-panel">
+              <div class="section-heading">
+                <h3>Today's Targets</h3>
+                <span class="pill">AI meal plan</span>
+              </div>
+              <div class="macro-chart" aria-label="Macronutrient distribution">
+                <div style="--value: 42; --color: #2f80ed"><span>Protein 140g</span></div>
+                <div style="--value: 33; --color: #20a67a"><span>Carbs 180g</span></div>
+                <div style="--value: 25; --color: #f2a93b"><span>Fat 62g</span></div>
+              </div>
+              <div class="macro-summary">
+                <strong>2,180 kcal</strong>
+                <span>3.0 L hydration goal</span>
+              </div>
+            </section>
+
+            <section class="panel meals-panel">
+              <div class="section-heading">
+                <h3>Meal Plan</h3>
+                <button class="text-button" type="button">Swap meal</button>
+              </div>
+              <div class="meal-list">
+                <article>
+                  <strong>Breakfast</strong>
+                  <span>Greek yogurt bowl, berries, chia, whey</span>
+                  <small>480 kcal | 42 g protein</small>
+                </article>
+                <article>
+                  <strong>Lunch</strong>
+                  <span>Paneer quinoa bowl with cucumber salad</span>
+                  <small>620 kcal | 44 g protein</small>
+                </article>
+                <article>
+                  <strong>Dinner</strong>
+                  <span>Dal, tofu tikka, brown rice, roasted vegetables</span>
+                  <small>710 kcal | 46 g protein</small>
+                </article>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="progress" data-title="Progress Tracking">
+          <div class="progress-grid">
+            <section class="panel chart-panel">
+              <div class="section-heading">
+                <h3>Weight Trend</h3>
+                <span class="pill">12 weeks</span>
+              </div>
+              <div class="line-chart" aria-label="Weight trend chart">
+                <span style="--x: 0; --y: 24"></span>
+                <span style="--x: 16; --y: 35"></span>
+                <span style="--x: 32; --y: 28"></span>
+                <span style="--x: 48; --y: 46"></span>
+                <span style="--x: 64; --y: 52"></span>
+                <span style="--x: 80; --y: 66"></span>
+                <span style="--x: 100; --y: 74"></span>
+              </div>
+            </section>
+            <section class="panel achievement-panel">
+              <div class="section-heading">
+                <h3>Achievements</h3>
+                <span class="pill">Unlocked</span>
+              </div>
+              <div class="achievement-list">
+                <span>18-day workout streak</span>
+                <span>5 kg lost since start</span>
+                <span>92% plan adherence</span>
+                <span>BMI improved from 27.1 to 25.8</span>
+              </div>
+            </section>
+          </div>
+          <div class="metric-grid">
+            <article class="metric-card"><span>Body Fat</span><strong>21.4%</strong><small>-2.8% in 90 days</small></article>
+            <article class="metric-card"><span>Workout Completion</span><strong>92%</strong><small>Premium analytics</small></article>
+            <article class="metric-card"><span>Calories Burned</span><strong>18.6k</strong><small>This month</small></article>
+            <article class="metric-card"><span>Health Score</span><strong>84</strong><small>Future wearable-ready</small></article>
+          </div>
+        </section>
+
+        <section class="view" id="coach" data-title="AI Chat Assistant">
+          <div class="chat-layout">
+            <section class="panel chat-panel">
+              <div class="chat-thread" id="chat-thread">
+                <div class="message ai">I adjusted your lower-body day. Want a 30-minute version or the full 42-minute plan?</div>
+                <div class="message user">Give me a 30-minute version and keep it knee-friendly.</div>
+                <div class="message ai">Done. I'll use goblet squats to a box, Romanian deadlifts, step-ups, and core work. No jumping today.</div>
+              </div>
+              <form class="chat-input" id="chat-form">
+                <input id="chat-message" type="text" placeholder="Ask for a workout, meal plan, or wellness tip" />
+                <button class="primary-action compact" type="submit">Send</button>
+              </form>
+            </section>
+            <section class="panel coach-tools">
+              <div class="section-heading">
+                <h3>Coach Tools</h3>
+                <span class="pill">Premium</span>
+              </div>
+              <button type="button">Voice guidance</button>
+              <button type="button">Camera form check</button>
+              <button type="button">Workout reminder</button>
+              <button type="button">Injury prevention scan</button>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="subscriptions" data-title="Subscription Plans">
+          <div class="pricing-grid">
+            <article class="price-card">
+              <span>Free</span>
+              <strong>INR 0</strong>
+              <p>Basic workouts, habit tracking, limited AI chat.</p>
+              <button class="secondary-action" type="button">Current</button>
+            </article>
+            <article class="price-card featured">
+              <span>Monthly Premium</span>
+              <strong>INR 499</strong>
+              <p>Unlimited AI coach, meal plans, progress analytics.</p>
+              <button class="primary-action" type="button">Upgrade</button>
+            </article>
+            <article class="price-card">
+              <span>Quarterly Premium</span>
+              <strong>INR 1,299</strong>
+              <p>Premium access with discounted billing cycle.</p>
+              <button class="secondary-action" type="button">Choose</button>
+            </article>
+            <article class="price-card">
+              <span>Yearly Premium</span>
+              <strong>INR 4,499</strong>
+              <p>Best value with advanced health analytics.</p>
+              <button class="secondary-action" type="button">Choose</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="admin" data-title="Admin Panel">
+          <div class="admin-grid">
+            <section class="panel">
+              <div class="section-heading">
+                <h3>Platform Metrics</h3>
+                <span class="pill">RBAC</span>
+              </div>
+              <div class="admin-stats">
+                <span><strong>12,480</strong> users</span>
+                <span><strong>INR 18.4L</strong> MRR</span>
+                <span><strong>1.8M</strong> AI tokens/day</span>
+                <span><strong>97.2%</strong> API uptime</span>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="section-heading">
+                <h3>Operations</h3>
+                <span class="pill">Content + support</span>
+              </div>
+              <div class="ops-list">
+                <button type="button">Manage users</button>
+                <button type="button">Workout content</button>
+                <button type="button">Diet templates</button>
+                <button type="button">Subscription billing</button>
+                <button type="button">AI usage monitor</button>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 import morgan from "morgan";
 import { Pool } from "pg";
 import Stripe from "stripe";
+import { generateAssessment, generateCoachReply } from "./services/ai.service.js";
+import { analyzeFormMetrics, scoreFitnessProfile } from "./services/ml.service.js";
 
 dotenv.config();
 
@@ -43,7 +45,12 @@ function requireAdmin(req, res, next) {
 }
 
 app.get("/health", (_req, res) => {
-  res.json({ ok: true, service: "fitai-api" });
+  res.json({
+    ok: true,
+    service: "fitai-api",
+    ai: process.env.OPENAI_API_KEY ? "openai-enabled" : "local-fallback",
+    ml: "enabled"
+  });
 });
 
 app.post("/api/auth/signup", async (req, res) => {
@@ -85,23 +92,13 @@ app.put("/api/profile", requireAuth, async (req, res) => {
   res.json({ profile: req.body, message: "Profile saved" });
 });
 
-app.post("/api/ai/assessment", requireAuth, async (req, res) => {
-  res.json({
-    readinessScore: 82,
-    workoutPlan: {
-      split: "4 strength, 2 cardio, 1 recovery",
-      sessionMinutes: [38, 45],
-      equipment: req.body.equipment || ["dumbbells", "bands", "mat"]
-    },
-    nutritionPlan: {
-      calories: 2180,
-      proteinGrams: 140,
-      carbsGrams: 180,
-      fatGrams: 62,
-      hydrationLiters: 3
-    },
-    safetyNotes: ["Avoid high-impact plyometrics", "Use controlled tempo on squats"]
-  });
+app.post("/api/ai/assessment", requireAuth, async (req, res, next) => {
+  try {
+    const assessment = await generateAssessment(req.body);
+    res.json(assessment);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get("/api/dashboard", requireAuth, async (_req, res) => {
@@ -146,11 +143,25 @@ app.get("/api/progress", requireAuth, async (_req, res) => {
   });
 });
 
-app.post("/api/chat", requireAuth, async (req, res) => {
-  res.json({
-    reply: `Based on your profile, I would tailor "${req.body.message}" around your current readiness and health notes.`,
-    actions: ["generate_workout", "generate_meal_plan", "set_reminder"]
-  });
+app.post("/api/chat", requireAuth, async (req, res, next) => {
+  try {
+    const reply = await generateCoachReply({
+      message: req.body.message,
+      profile: req.body.profile,
+      context: req.body.context
+    });
+    res.json(reply);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/ml/readiness", requireAuth, async (req, res) => {
+  res.json(scoreFitnessProfile(req.body));
+});
+
+app.post("/api/ml/form-check", requireAuth, async (req, res) => {
+  res.json(analyzeFormMetrics(req.body));
 });
 
 app.get("/api/subscriptions/plans", async (_req, res) => {
@@ -189,6 +200,14 @@ app.get("/api/admin/metrics", requireAuth, requireAdmin, async (_req, res) => {
 });
 
 app.locals.db = db;
+
+app.use((error, _req, res, _next) => {
+  console.error(error);
+  res.status(500).json({
+    error: "Server error",
+    message: process.env.NODE_ENV === "production" ? "Something went wrong" : error.message
+  });
+});
 
 app.listen(port, () => {
   console.log(`FitAI API listening on http://localhost:${port}`);

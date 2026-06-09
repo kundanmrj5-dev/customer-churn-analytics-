@@ -1,6 +1,53 @@
 const navItems = document.querySelectorAll(".nav-item");
 const views = document.querySelectorAll(".view");
 const title = document.querySelector("#view-title");
+const API_BASE_URL = localStorage.getItem("fitaiApiBaseUrl") || "http://localhost:4000";
+
+const demoProfile = {
+  age: 29,
+  gender: "male",
+  heightCm: 178,
+  weightKg: 82,
+  goal: "fat_loss_muscle_tone",
+  activityLevel: "moderate",
+  dietPreference: "high_protein_vegetarian",
+  healthConsiderations: ["lower_back_tightness"],
+  equipmentAccess: ["dumbbells", "bands", "treadmill", "mat"],
+  availableMinutes: 42,
+  sleepHours: 7,
+  soreness: 3
+};
+
+async function getDemoToken() {
+  const stored = localStorage.getItem("fitaiAccessToken");
+  if (stored) return stored;
+
+  const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: "demo@fitai.local", name: "FitAI Demo User" })
+  });
+
+  if (!response.ok) throw new Error("Unable to create demo session");
+  const data = await response.json();
+  localStorage.setItem("fitaiAccessToken", data.accessToken);
+  return data.accessToken;
+}
+
+async function apiFetch(path, options = {}) {
+  const token = await getDemoToken();
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      ...(options.headers || {})
+    }
+  });
+
+  if (!response.ok) throw new Error(`API request failed: ${response.status}`);
+  return response.json();
+}
 
 function showView(id) {
   views.forEach((view) => {
@@ -55,11 +102,33 @@ const planVariants = [
 
 let planIndex = 0;
 
-planButton?.addEventListener("click", () => {
-  planIndex = (planIndex + 1) % planVariants.length;
-  const next = planVariants[planIndex];
-  readinessScore.textContent = next.score;
-  insightList.innerHTML = next.items.map((item) => `<li>${item}</li>`).join("");
+planButton?.addEventListener("click", async () => {
+  planButton.textContent = "Thinking...";
+  planButton.disabled = true;
+
+  try {
+    const assessment = await apiFetch("/api/ai/assessment", {
+      method: "POST",
+      body: JSON.stringify(demoProfile)
+    });
+
+    readinessScore.textContent = assessment.readinessScore;
+    const items = [
+      `Training split: ${assessment.workoutPlan?.split || "Personalized weekly training"}.`,
+      `Calories: ${assessment.nutritionPlan?.calories || 2180} kcal with ${assessment.nutritionPlan?.proteinGrams || 140} g protein.`,
+      `ML injury risk: ${assessment.injuryRisk || assessment.ml?.injuryRisk || 35}%.`,
+      `AI provider: ${assessment.aiProvider || "backend"}.`
+    ];
+    insightList.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
+  } catch {
+    planIndex = (planIndex + 1) % planVariants.length;
+    const next = planVariants[planIndex];
+    readinessScore.textContent = next.score;
+    insightList.innerHTML = next.items.map((item) => `<li>${item}</li>`).join("");
+  } finally {
+    planButton.textContent = "Regenerate";
+    planButton.disabled = false;
+  }
 });
 
 const chatForm = document.querySelector("#chat-form");
@@ -83,11 +152,48 @@ chatForm?.addEventListener("submit", (event) => {
   userBubble.textContent = text;
   chatThread.appendChild(userBubble);
 
+  chatMessage.value = "";
+
   const aiBubble = document.createElement("div");
   aiBubble.className = "message ai";
-  aiBubble.textContent = coachReplies[Math.floor(Math.random() * coachReplies.length)];
+  aiBubble.textContent = "Checking your AI coach...";
+  chatThread.appendChild(aiBubble);
+  chatThread.scrollTop = chatThread.scrollHeight;
+
+  apiFetch("/api/chat", {
+    method: "POST",
+    body: JSON.stringify({ message: text, profile: demoProfile })
+  })
+    .then((data) => {
+      aiBubble.textContent = data.reply || coachReplies[Math.floor(Math.random() * coachReplies.length)];
+    })
+    .catch(() => {
+      aiBubble.textContent = coachReplies[Math.floor(Math.random() * coachReplies.length)];
+    })
+    .finally(() => {
+      chatThread.scrollTop = chatThread.scrollHeight;
+    });
+});
+
+document.querySelector(".coach-tools button:nth-child(3)")?.addEventListener("click", async () => {
+  const aiBubble = document.createElement("div");
+  aiBubble.className = "message ai";
+  aiBubble.textContent = "Analyzing sample squat form...";
   chatThread.appendChild(aiBubble);
 
-  chatMessage.value = "";
-  chatThread.scrollTop = chatThread.scrollHeight;
+  try {
+    const form = await apiFetch("/api/ml/form-check", {
+      method: "POST",
+      body: JSON.stringify({
+        kneeAngle: 86,
+        hipAngle: 72,
+        spineTilt: 7,
+        repTempoSeconds: 2.7
+      })
+    });
+
+    aiBubble.textContent = `Form score ${form.formScore}/100. ${form.corrections.join(" ")}`;
+  } catch {
+    aiBubble.textContent = "Start the backend to run the ML form check. Demo mode is still available.";
+  }
 });

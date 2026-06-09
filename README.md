@@ -2,7 +2,7 @@
 
 FitAI is a runnable single-page prototype for an AI-powered fitness and wellness platform. It covers profile setup, AI assessment, dashboard goals, workout management, nutrition planning, progress analytics, AI chat, subscriptions, and admin operations.
 
-Open `index.html` in a browser to use the prototype.
+Open `index.html` in a browser to use the frontend. Run the backend from `backend/` to enable AI and ML endpoints.
 
 ## Product Scope
 
@@ -35,3 +35,55 @@ Open `index.html` in a browser to use the prototype.
 - Encrypt sensitive profile and health-related data at rest.
 - Keep AI prompts and interaction history scoped to the authenticated user.
 - Store payment details only through the payment provider.
+
+## Run The Backend With AI/ML
+
+The backend supports:
+
+- OpenAI-powered fitness assessment and AI chat when `OPENAI_API_KEY` is configured.
+- Local fallback responses when no API key is configured.
+- ML-style readiness, injury-risk, and form-score inference using local scoring models.
+
+```powershell
+cd "C:\Users\Asus\OneDrive\Documents\AI FITNESS TRACKER\backend"
+npm install
+copy .env.example .env
+npm run dev
+```
+
+Edit `backend/.env`:
+
+```env
+PORT=4000
+JWT_SECRET=replace-with-a-long-random-secret
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=gpt-5.4-mini
+```
+
+Test:
+
+```powershell
+curl http://localhost:4000/health
+```
+
+Expected:
+
+```json
+{
+  "ok": true,
+  "service": "fitai-api",
+  "ai": "openai-enabled",
+  "ml": "enabled"
+}
+```
+
+If `OPENAI_API_KEY` is missing, the backend still works in `local-fallback` mode.
+
+## AI/ML Endpoints
+
+- `POST /api/ai/assessment` generates personalized workout and nutrition plans.
+- `POST /api/chat` answers fitness, nutrition, and wellness questions.
+- `POST /api/ml/readiness` returns BMI, readiness score, injury risk, and intensity.
+- `POST /api/ml/form-check` scores sample exercise form metrics.
+
+The deployed GitHub Pages site is static. For live AI in production, deploy the backend to Render, Railway, Fly.io, or AWS, then point the frontend to that backend URL.

@@ -22,6 +22,8 @@ Base URL: `/api`
 - `GET /nutrition/today` returns calorie target, macros, hydration, and meals.
 - `GET /progress` returns weight, BMI, body fat, completion rate, calories, achievements, and streaks.
 - `POST /chat` sends a fitness, nutrition, or wellness prompt to the AI assistant.
+- `POST /ml/readiness` returns local ML readiness, injury-risk, BMI, and intensity scoring.
+- `POST /ml/form-check` returns local ML form score, risk level, and movement corrections.
 
 ## Subscriptions, Payments, And Notifications
 

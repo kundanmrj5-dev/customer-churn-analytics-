@@ -224,64 +224,41 @@
         <section class="view" id="workouts" data-title="Workout Management">
           <div class="section-heading">
             <h3>Programs</h3>
-            <div class="segmented-control" aria-label="Workout level">
-              <button class="active" type="button">Beginner</button>
-              <button type="button">Intermediate</button>
-              <button type="button">Advanced</button>
+            <div class="segmented-control" id="workout-level-control" aria-label="Workout level">
+              <button class="active" data-level="beginner" type="button">Beginner</button>
+              <button data-level="intermediate" type="button">Intermediate</button>
+              <button data-level="advanced" type="button">Advanced</button>
             </div>
           </div>
-          <div class="workout-grid">
-            <article class="workout-card">
-              <div class="workout-media strength"></div>
-              <div>
-                <span class="pill">Strength</span>
-                <h3>Full Body Builder</h3>
-                <p>Dumbbell press, goblet squat, row, dead bug, farmer carry.</p>
-                <div class="workout-meta">
-                  <span>4 sets</span>
-                  <span>42 min</span>
-                  <span>Gym/Home</span>
-                </div>
-              </div>
-            </article>
-            <article class="workout-card">
-              <div class="workout-media cardio"></div>
-              <div>
-                <span class="pill">Cardio</span>
-                <h3>Zone 2 Endurance</h3>
-                <p>Treadmill intervals with heart-rate guided recovery blocks.</p>
-                <div class="workout-meta">
-                  <span>7 rounds</span>
-                  <span>35 min</span>
-                  <span>Video</span>
-                </div>
-              </div>
-            </article>
-            <article class="workout-card">
-              <div class="workout-media yoga"></div>
-              <div>
-                <span class="pill">Mobility</span>
-                <h3>Lower Back Reset</h3>
-                <p>Breathing, hip flexor release, cat-cow, hamstring flossing.</p>
-                <div class="workout-meta">
-                  <span>8 moves</span>
-                  <span>18 min</span>
-                  <span>Voice</span>
-                </div>
-              </div>
-            </article>
-          </div>
+          <div class="workout-grid" id="workout-grid"></div>
 
           <section class="panel exercise-panel">
             <div class="section-heading">
-              <h3>Exercise Instructions</h3>
-              <span class="pill">Camera form correction ready</span>
+              <div>
+                <h3 id="selected-workout-title">Exercise Instructions</h3>
+                <small id="selected-workout-summary">Select a workout to view its exercises.</small>
+              </div>
+              <button class="primary-action compact" id="start-selected-workout" type="button">Start Workout</button>
             </div>
-            <div class="exercise-table">
-              <div class="table-row head"><span>Exercise</span><span>Sets</span><span>Reps</span><span>Coach Cue</span></div>
-              <div class="table-row"><span>Goblet Squat</span><span>4</span><span>10</span><span>Knees track over toes, chest tall.</span></div>
-              <div class="table-row"><span>Dumbbell Row</span><span>3</span><span>12</span><span>Pause at rib cage for one second.</span></div>
-              <div class="table-row"><span>Incline Push-up</span><span>3</span><span>AMRAP</span><span>Keep ribs down and neck neutral.</span></div>
+            <div class="exercise-table" id="exercise-table"></div>
+          </section>
+
+          <section class="panel live-session-panel" id="live-session-panel" hidden>
+            <div class="session-header">
+              <div>
+                <p class="eyebrow">Live Workout Session</p>
+                <h3 id="session-workout-title">Workout</h3>
+              </div>
+              <strong id="session-timer">00:00</strong>
+            </div>
+            <div class="session-progress">
+              <progress id="session-progress-bar" value="0" max="100"></progress>
+              <span id="session-progress-text">0% complete</span>
+            </div>
+            <div class="session-exercises" id="session-exercises"></div>
+            <div class="session-actions">
+              <button class="secondary-action" id="pause-session" type="button">Pause</button>
+              <button class="primary-action" id="finish-session" type="button">Finish Workout</button>
             </div>
           </section>
         </section>
@@ -362,8 +339,8 @@
           </div>
           <div class="metric-grid">
             <article class="metric-card"><span>Body Fat</span><strong>21.4%</strong><small>-2.8% in 90 days</small></article>
-            <article class="metric-card"><span>Workout Completion</span><strong>92%</strong><small>Premium analytics</small></article>
-            <article class="metric-card"><span>Calories Burned</span><strong>18.6k</strong><small>This month</small></article>
+            <article class="metric-card"><span>Workout Completion</span><strong id="progress-completion-rate">92%</strong><small>Saved workout sessions</small></article>
+            <article class="metric-card"><span>Calories Burned</span><strong id="progress-calories-burned">18.6k</strong><small>This month</small></article>
             <article class="metric-card"><span>Health Score</span><strong>84</strong><small>Future wearable-ready</small></article>
           </div>
         </section>

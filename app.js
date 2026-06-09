@@ -22,6 +22,10 @@ async function getDemoToken() {
   const stored = localStorage.getItem("fitaiAccessToken");
   if (stored) return stored;
 
+  return createDemoToken();
+}
+
+async function createDemoToken() {
   const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -34,7 +38,7 @@ async function getDemoToken() {
   return data.accessToken;
 }
 
-async function apiFetch(path, options = {}) {
+async function apiFetch(path, options = {}, retry = true) {
   const token = await getDemoToken();
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
@@ -44,6 +48,12 @@ async function apiFetch(path, options = {}) {
       ...(options.headers || {})
     }
   });
+
+  if (response.status === 401 && retry) {
+    localStorage.removeItem("fitaiAccessToken");
+    await createDemoToken();
+    return apiFetch(path, options, false);
+  }
 
   if (!response.ok) throw new Error(`API request failed: ${response.status}`);
   return response.json();

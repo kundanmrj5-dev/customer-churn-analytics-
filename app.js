@@ -2,6 +2,7 @@ const navItems = document.querySelectorAll(".nav-item");
 const views = document.querySelectorAll(".view");
 const title = document.querySelector("#view-title");
 const API_BASE_URL = localStorage.getItem("fitaiApiBaseUrl") || "https://fitai-backend-jge7.onrender.com";
+const WORKOUT_PLAN_VERSION = 2;
 
 const demoProfile = {
   age: 29,
@@ -241,6 +242,11 @@ function personalizeWorkout(workout, profile) {
   const goal = String(profile.goal || "").toLowerCase();
   const health = (profile.healthConsiderations || []).join(" ").toLowerCase();
   const personalized = structuredClone(workout);
+  personalized.exercises = [
+    { name: "Dynamic Warm-up", sets: 1, reps: "5 min", cue: "Raise body temperature gradually and use pain-free movement." },
+    ...personalized.exercises,
+    { name: "Cool-down Breathing", sets: 1, reps: "3 min", cue: "Slow your breathing and let your heart rate settle." }
+  ];
 
   if (goal.includes("muscle") && personalized.category === "strength") {
     personalized.title = `${personalized.title} - Muscle Gain`;
@@ -278,10 +284,11 @@ function personalizeWorkout(workout, profile) {
 
 function getWorkoutPlan() {
   const saved = JSON.parse(localStorage.getItem("fitaiWorkoutPlan") || "null");
-  if (saved?.level === selectedWorkoutLevel && saved?.workouts?.length) return saved;
+  if (saved?.version === WORKOUT_PLAN_VERSION && saved?.level === selectedWorkoutLevel && saved?.workouts?.length) return saved;
 
   const profile = getAssessmentProfile();
   const plan = {
+    version: WORKOUT_PLAN_VERSION,
     level: selectedWorkoutLevel,
     profile,
     generatedAt: new Date().toISOString(),
@@ -296,6 +303,7 @@ function generateWorkoutPlan(profile, assessment = {}) {
   selectedWorkoutLevel = activity.includes("advanced") ? "advanced" : activity.includes("moderate") ? "intermediate" : "beginner";
   localStorage.setItem("fitaiWorkoutLevel", selectedWorkoutLevel);
   const plan = {
+    version: WORKOUT_PLAN_VERSION,
     level: selectedWorkoutLevel,
     profile,
     readinessScore: assessment.readinessScore,

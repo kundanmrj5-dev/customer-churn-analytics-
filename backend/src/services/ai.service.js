@@ -1,7 +1,8 @@
 import { scoreFitnessProfile } from "./ml.service.js";
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5.4-mini";
+const configuredModel = process.env.OPENAI_MODEL || "gpt-4.1-mini";
+const DEFAULT_MODEL = configuredModel === "gpt-5.4-mini" ? "gpt-4.1-mini" : configuredModel;
 
 function extractText(responseJson) {
   if (responseJson.output_text) return responseJson.output_text;
@@ -27,28 +28,38 @@ async function callOpenAi(prompt, fallback) {
     return { ...fallback, aiProvider: "local-fallback" };
   }
 
-  const response = await fetch(OPENAI_RESPONSES_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
+  try {
+    const response = await fetch(OPENAI_RESPONSES_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: DEFAULT_MODEL,
+        input: prompt,
+        text: { format: { type: "json_object" } }
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`OpenAI request failed: ${response.status} ${errorText}`);
+    }
+
+    const data = await response.json();
+    const text = extractText(data);
+    const parsed = parseJsonText(text);
+    return { ...(parsed || fallback), aiProvider: "openai", model: DEFAULT_MODEL };
+  } catch (error) {
+    console.error(error);
+    return {
+      ...fallback,
+      aiProvider: "openai-error-local-fallback",
       model: DEFAULT_MODEL,
-      input: prompt,
-      text: { format: { type: "json_object" } }
-    })
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`OpenAI request failed: ${response.status} ${errorText}`);
+      aiError: error.message
+    };
   }
-
-  const data = await response.json();
-  const text = extractText(data);
-  const parsed = parseJsonText(text);
-  return { ...(parsed || fallback), aiProvider: "openai", model: DEFAULT_MODEL };
 }
 
 export async function generateAssessment(profile = {}) {

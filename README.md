@@ -57,7 +57,7 @@ Edit `backend/.env`:
 PORT=4000
 JWT_SECRET=replace-with-a-long-random-secret
 OPENAI_API_KEY=your_openai_api_key
-OPENAI_MODEL=gpt-5.4-mini
+OPENAI_MODEL=gpt-4.1-mini
 ```
 
 Test:

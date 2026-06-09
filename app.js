@@ -473,11 +473,134 @@ function finishWorkoutSession() {
 
 function updateProgressFromHistory() {
   const history = JSON.parse(localStorage.getItem("fitaiWorkoutHistory") || "[]");
-  if (!history.length) return;
-  const completion = Math.round(history.reduce((sum, item) => sum + item.completionRate, 0) / history.length);
+  const completion = history.length ? Math.round(history.reduce((sum, item) => sum + item.completionRate, 0) / history.length) : 0;
   const calories = history.reduce((sum, item) => sum + item.caloriesBurned, 0);
   document.querySelector("#progress-completion-rate").textContent = `${completion}%`;
   document.querySelector("#progress-calories-burned").textContent = calories.toLocaleString();
+  setDailyTask("workout", history.length > 0, false);
+}
+
+const nutritionTargets = {
+  calories: 2180,
+  protein: 140,
+  waterLiters: 3
+};
+
+const meals = [
+  { id: "breakfast", name: "Breakfast", details: "Oats, banana, milk, peanut butter", calories: 520, protein: 28 },
+  { id: "lunch", name: "Lunch", details: "Rice, dal, paneer/tofu, salad", calories: 680, protein: 42 },
+  { id: "snack", name: "Snack", details: "Fruit, curd, nuts or protein shake", calories: 320, protein: 24 },
+  { id: "dinner", name: "Dinner", details: "Roti, vegetables, dal, curd", calories: 610, protein: 38 }
+];
+
+function getNutritionState() {
+  return JSON.parse(localStorage.getItem("fitaiNutritionState") || '{"completedMeals":[],"waterLiters":0}');
+}
+
+function saveNutritionState(state) {
+  localStorage.setItem("fitaiNutritionState", JSON.stringify(state));
+}
+
+function renderNutritionTracker() {
+  const mealList = document.querySelector("#meal-list");
+  if (!mealList) return;
+
+  const state = getNutritionState();
+  const completedMeals = new Set(state.completedMeals || []);
+  const totals = meals.reduce(
+    (sum, meal) => {
+      if (completedMeals.has(meal.id)) {
+        sum.calories += meal.calories;
+        sum.protein += meal.protein;
+      }
+      return sum;
+    },
+    { calories: 0, protein: 0 }
+  );
+
+  mealList.innerHTML = meals.map((meal) => `
+    <label class="meal-check ${completedMeals.has(meal.id) ? "completed" : ""}">
+      <input type="checkbox" data-meal-id="${meal.id}" ${completedMeals.has(meal.id) ? "checked" : ""} />
+      <span>
+        <strong>${meal.name}</strong>
+        <em>${meal.details}</em>
+        <small>${meal.calories} kcal | ${meal.protein} g protein</small>
+      </span>
+    </label>
+  `).join("");
+
+  const caloriePercent = Math.min(Math.round((totals.calories / nutritionTargets.calories) * 100), 100);
+  const proteinPercent = Math.min(Math.round((totals.protein / nutritionTargets.protein) * 100), 100);
+  const mealPercent = Math.round((completedMeals.size / meals.length) * 100);
+
+  document.querySelector("#nutrition-calories").textContent = `${totals.calories} / ${nutritionTargets.calories}`;
+  document.querySelector("#nutrition-protein").textContent = `${totals.protein} / ${nutritionTargets.protein}g`;
+  document.querySelector("#nutrition-calories-progress").value = caloriePercent;
+  document.querySelector("#nutrition-protein-progress").value = proteinPercent;
+  document.querySelector("#nutrition-status-pill").textContent = `${mealPercent}% logged`;
+  document.querySelector("#water-total").textContent = `${Number(state.waterLiters || 0).toFixed(2)} L / ${nutritionTargets.waterLiters.toFixed(1)} L`;
+  document.querySelector("#progress-meals-logged").textContent = `${completedMeals.size}/${meals.length}`;
+
+  setDailyTask("meals", completedMeals.size === meals.length, false);
+  setDailyTask("water", Number(state.waterLiters || 0) >= nutritionTargets.waterLiters, false);
+
+  mealList.querySelectorAll("[data-meal-id]").forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      const current = getNutritionState();
+      const currentMeals = new Set(current.completedMeals || []);
+      if (checkbox.checked) currentMeals.add(checkbox.dataset.mealId);
+      else currentMeals.delete(checkbox.dataset.mealId);
+      current.completedMeals = [...currentMeals];
+      saveNutritionState(current);
+      renderNutritionTracker();
+      renderDailyProgress();
+    });
+  });
+}
+
+function changeWater(amount) {
+  const state = getNutritionState();
+  state.waterLiters = Math.max(0, Math.min(5, Number(state.waterLiters || 0) + amount));
+  saveNutritionState(state);
+  renderNutritionTracker();
+  renderDailyProgress();
+}
+
+function resetNutrition() {
+  saveNutritionState({ completedMeals: [], waterLiters: 0 });
+  renderNutritionTracker();
+  renderDailyProgress();
+}
+
+function getDailyProgressState() {
+  return JSON.parse(localStorage.getItem("fitaiDailyProgress") || "{}");
+}
+
+function saveDailyProgressState(state) {
+  localStorage.setItem("fitaiDailyProgress", JSON.stringify(state));
+}
+
+function setDailyTask(task, value, render = true) {
+  const state = getDailyProgressState();
+  state[task] = value;
+  saveDailyProgressState(state);
+  if (render) renderDailyProgress();
+}
+
+function renderDailyProgress() {
+  const checklist = document.querySelector("#daily-checklist");
+  if (!checklist) return;
+
+  const state = getDailyProgressState();
+  checklist.querySelectorAll("[data-progress-task]").forEach((checkbox) => {
+    checkbox.checked = Boolean(state[checkbox.dataset.progressTask]);
+  });
+
+  const total = checklist.querySelectorAll("[data-progress-task]").length;
+  const done = Object.values(state).filter(Boolean).length;
+  const percent = Math.round((Math.min(done, total) / total) * 100);
+  document.querySelector("#daily-progress-pill").textContent = `${percent}% done`;
+  document.querySelector("#daily-score").textContent = `${percent}%`;
 }
 
 const planVariants = [
@@ -627,8 +750,16 @@ document.querySelector(".hero-actions .primary-action")?.addEventListener("click
   showView("workouts");
   startWorkoutSession();
 });
+document.querySelector("#water-plus")?.addEventListener("click", () => changeWater(0.25));
+document.querySelector("#water-minus")?.addEventListener("click", () => changeWater(-0.25));
+document.querySelector("#reset-nutrition")?.addEventListener("click", resetNutrition);
+document.querySelectorAll("[data-progress-task]").forEach((checkbox) => {
+  checkbox.addEventListener("change", () => setDailyTask(checkbox.dataset.progressTask, checkbox.checked));
+});
 
 renderWorkoutManagement();
+renderNutritionTracker();
+renderDailyProgress();
 updateProgressFromHistory();
 if (getWorkoutSession()) {
   updateSessionDisplay();

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FitAI - Your Personal AI Fitness Coach</title>
-    <link rel="stylesheet" href="./styles.css?v=20260609-3" />
+    <link rel="stylesheet" href="./styles.css?v=20260609-4" />
   </head>
   <body>
     <div class="app-shell">
@@ -267,42 +267,39 @@
           <div class="nutrition-layout">
             <section class="panel macro-panel">
               <div class="section-heading">
-                <h3>Today's Targets</h3>
-                <span class="pill">AI meal plan</span>
+                <h3>Easy Diet Tracker</h3>
+                <span class="pill" id="nutrition-status-pill">0% logged</span>
               </div>
-              <div class="macro-chart" aria-label="Macronutrient distribution">
-                <div style="--value: 42; --color: #2f80ed"><span>Protein 140g</span></div>
-                <div style="--value: 33; --color: #20a67a"><span>Carbs 180g</span></div>
-                <div style="--value: 25; --color: #f2a93b"><span>Fat 62g</span></div>
+              <div class="simple-targets">
+                <article>
+                  <span>Calories</span>
+                  <strong id="nutrition-calories">0 / 2180</strong>
+                  <progress id="nutrition-calories-progress" value="0" max="100"></progress>
+                </article>
+                <article>
+                  <span>Protein</span>
+                  <strong id="nutrition-protein">0 / 140g</strong>
+                  <progress id="nutrition-protein-progress" value="0" max="100"></progress>
+                </article>
               </div>
-              <div class="macro-summary">
-                <strong>2,180 kcal</strong>
-                <span>3.0 L hydration goal</span>
+              <div class="water-tracker">
+                <div>
+                  <span>Water</span>
+                  <strong id="water-total">0.0 L / 3.0 L</strong>
+                </div>
+                <div class="stepper-actions">
+                  <button class="secondary-action compact" id="water-minus" type="button">-250 ml</button>
+                  <button class="primary-action compact" id="water-plus" type="button">+250 ml</button>
+                </div>
               </div>
             </section>
 
             <section class="panel meals-panel">
               <div class="section-heading">
-                <h3>Meal Plan</h3>
-                <button class="text-button" type="button">Swap meal</button>
+                <h3>Today's Meals</h3>
+                <button class="text-button" id="reset-nutrition" type="button">Reset</button>
               </div>
-              <div class="meal-list">
-                <article>
-                  <strong>Breakfast</strong>
-                  <span>Greek yogurt bowl, berries, chia, whey</span>
-                  <small>480 kcal | 42 g protein</small>
-                </article>
-                <article>
-                  <strong>Lunch</strong>
-                  <span>Paneer quinoa bowl with cucumber salad</span>
-                  <small>620 kcal | 44 g protein</small>
-                </article>
-                <article>
-                  <strong>Dinner</strong>
-                  <span>Dal, tofu tikka, brown rice, roasted vegetables</span>
-                  <small>710 kcal | 46 g protein</small>
-                </article>
-              </div>
+              <div class="meal-list" id="meal-list"></div>
             </section>
           </div>
         </section>
@@ -326,22 +323,22 @@
             </section>
             <section class="panel achievement-panel">
               <div class="section-heading">
-                <h3>Achievements</h3>
-                <span class="pill">Unlocked</span>
+                <h3>Daily Progress</h3>
+                <span class="pill" id="daily-progress-pill">0% done</span>
               </div>
-              <div class="achievement-list">
-                <span>18-day workout streak</span>
-                <span>5 kg lost since start</span>
-                <span>92% plan adherence</span>
-                <span>BMI improved from 27.1 to 25.8</span>
+              <div class="daily-checklist" id="daily-checklist">
+                <label><input type="checkbox" data-progress-task="workout" /> Workout completed</label>
+                <label><input type="checkbox" data-progress-task="meals" /> Meals logged</label>
+                <label><input type="checkbox" data-progress-task="water" /> Water goal reached</label>
+                <label><input type="checkbox" data-progress-task="sleep" /> 7+ hours sleep</label>
               </div>
             </section>
           </div>
           <div class="metric-grid">
-            <article class="metric-card"><span>Body Fat</span><strong>21.4%</strong><small>-2.8% in 90 days</small></article>
+            <article class="metric-card"><span>Daily Score</span><strong id="daily-score">0%</strong><small>Checklist completion</small></article>
             <article class="metric-card"><span>Workout Completion</span><strong id="progress-completion-rate">92%</strong><small>Saved workout sessions</small></article>
             <article class="metric-card"><span>Calories Burned</span><strong id="progress-calories-burned">18.6k</strong><small>This month</small></article>
-            <article class="metric-card"><span>Health Score</span><strong>84</strong><small>Future wearable-ready</small></article>
+            <article class="metric-card"><span>Meals Logged</span><strong id="progress-meals-logged">0/4</strong><small>Today's diet tracker</small></article>
           </div>
         </section>
 
@@ -432,6 +429,6 @@
       </main>
     </div>
 
-    <script src="./app.js?v=20260609-2"></script>
+    <script src="./app.js?v=20260609-4"></script>
   </body>
 </html>

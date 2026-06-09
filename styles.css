@@ -742,6 +742,32 @@ textarea {
   gap: 12px;
 }
 
+.simple-targets {
+  display: grid;
+  gap: 12px;
+}
+
+.simple-targets article {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.simple-targets span,
+.water-tracker span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.simple-targets strong,
+.water-tracker strong {
+  font-size: 1.35rem;
+}
+
 .macro-chart div {
   position: relative;
   height: 42px;
@@ -778,6 +804,29 @@ textarea {
   font-size: 2rem;
 }
 
+.water-tracker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #bfe6d6;
+  border-radius: 8px;
+  background: #edf7f3;
+}
+
+.water-tracker div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.stepper-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .meal-list article {
   display: grid;
   gap: 5px;
@@ -785,6 +834,66 @@ textarea {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fbfdff;
+}
+
+.meal-check {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+  cursor: pointer;
+}
+
+.meal-check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 4px;
+}
+
+.meal-check span,
+.meal-check em,
+.meal-check small {
+  display: block;
+}
+
+.meal-check em {
+  margin: 5px 0;
+  color: #40556d;
+  font-style: normal;
+}
+
+.meal-check.completed {
+  border-color: #9bd9c2;
+  background: #edf7f3;
+}
+
+.daily-checklist {
+  display: grid;
+  gap: 10px;
+}
+
+.daily-checklist label {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+  color: #334155;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.daily-checklist input {
+  width: 18px;
+  height: 18px;
 }
 
 .progress-grid,

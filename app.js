@@ -671,6 +671,20 @@ const chatMessage = document.querySelector("#chat-message");
 const chatThread = document.querySelector("#chat-thread");
 const billingStatus = document.querySelector("#billing-status");
 
+function setBillingStatus(text) {
+  if (billingStatus) billingStatus.textContent = text;
+}
+
+function setDemoSubscription(planId) {
+  localStorage.setItem("fitaiSubscriptionPlan", planId);
+  document.querySelectorAll(".checkout-button").forEach((button) => {
+    const isSelected = button.dataset.planId === planId;
+    button.textContent = isSelected ? "Demo Active" : "Choose";
+    button.classList.toggle("active-plan", isSelected);
+  });
+  setBillingStatus(`Demo ${planId} active`);
+}
+
 const coachReplies = [
   "I can do that. I'll keep the plan joint-friendly and prioritize controlled tempo over intensity.",
   "Here's the adjustment: add 20 g protein at breakfast and move most carbs around your workout window.",
@@ -762,7 +776,7 @@ document.querySelectorAll(".checkout-button").forEach((button) => {
     const originalText = button.textContent;
     button.textContent = "Opening...";
     button.disabled = true;
-    if (billingStatus) billingStatus.textContent = "Creating checkout";
+    setBillingStatus("Creating checkout");
 
     try {
       const result = await apiFetch("/api/payments/checkout", {
@@ -774,21 +788,23 @@ document.querySelectorAll(".checkout-button").forEach((button) => {
       });
 
       if (result.provider === "mock") {
-        if (billingStatus) billingStatus.textContent = "Stripe setup needed";
-        alert(result.message || "Stripe is not configured yet. Add Stripe keys and price IDs on Render.");
+        setDemoSubscription(result.plan || button.dataset.planId);
         return;
       }
 
       window.location.href = result.checkoutUrl;
     } catch {
-      if (billingStatus) billingStatus.textContent = "Checkout failed";
-      alert("Unable to start checkout. Please check backend and Stripe settings.");
+      setBillingStatus("Demo mode available");
+      setDemoSubscription(button.dataset.planId);
     } finally {
-      button.textContent = originalText;
+      if (!button.classList.contains("active-plan")) button.textContent = originalText;
       button.disabled = false;
     }
   });
 });
+
+const savedSubscriptionPlan = localStorage.getItem("fitaiSubscriptionPlan");
+if (savedSubscriptionPlan) setDemoSubscription(savedSubscriptionPlan);
 
 renderWorkoutManagement();
 renderNutritionTracker();

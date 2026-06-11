@@ -215,7 +215,7 @@ app.post("/api/payments/checkout", requireAuth, async (req, res, next) => {
         provider: "mock",
         checkoutUrl: req.body.successUrl || "https://kundanmrj5-dev.github.io/FitAI/",
         plan: plan.id,
-        message: "Stripe is not fully configured. Add STRIPE_SECRET_KEY and matching STRIPE_PRICE_* variables on Render."
+        message: "Demo subscription activated. Add Stripe keys and price IDs on Render to enable real payments."
       });
     }
 

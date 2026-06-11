@@ -4,6 +4,15 @@ FitAI is a runnable single-page prototype for an AI-powered fitness and wellness
 
 Open `index.html` in a browser to use the frontend. Run the backend from `backend/` to enable AI and ML endpoints.
 
+## Live Demo
+
+- Website: https://kundanmrj5-dev.github.io/FitAI/
+- Repository: https://github.com/kundanmrj5-dev/FitAI
+
+## Screenshot
+
+![FitAI dashboard screenshot](docs/screenshots/dashboard.png)
+
 ## Product Scope
 
 - Secure authentication model: email/password, recovery, Google, Apple, JWT, RBAC.

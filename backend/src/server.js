@@ -7,7 +7,7 @@ import morgan from "morgan";
 import { Pool } from "pg";
 import Stripe from "stripe";
 import { generateAssessment, generateCoachReply } from "./services/ai.service.js";
-import { analyzeFormMetrics, scoreFitnessProfile } from "./services/ml.service.js";
+import { analyzeFormMetrics, generateMlRecommendations, scoreFitnessProfile } from "./services/ml.service.js";
 
 dotenv.config();
 
@@ -192,6 +192,10 @@ app.post("/api/chat", requireAuth, async (req, res, next) => {
 
 app.post("/api/ml/readiness", requireAuth, async (req, res) => {
   res.json(scoreFitnessProfile(req.body));
+});
+
+app.post("/api/ml/recommendations", requireAuth, async (req, res) => {
+  res.json(generateMlRecommendations(req.body));
 });
 
 app.post("/api/ml/form-check", requireAuth, async (req, res) => {

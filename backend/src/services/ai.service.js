@@ -1,4 +1,4 @@
-import { scoreFitnessProfile } from "./ml.service.js";
+import { generateMlRecommendations, scoreFitnessProfile } from "./ml.service.js";
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const configuredModel = process.env.OPENAI_MODEL || "gpt-4.1-mini";
@@ -64,6 +64,7 @@ async function callOpenAi(prompt, fallback) {
 
 export async function generateAssessment(profile = {}) {
   const ml = scoreFitnessProfile(profile);
+  const recommendations = generateMlRecommendations(profile);
   const fallback = {
     readinessScore: ml.readinessScore,
     injuryRisk: ml.injuryRisk,
@@ -124,7 +125,8 @@ JSON shape:
     readinessScore: ml.readinessScore,
     injuryRisk: ml.injuryRisk,
     intensity: ml.intensity,
-    ml
+    ml,
+    recommendations
   };
 }
 

@@ -561,6 +561,38 @@ textarea {
   line-height: 1.7;
 }
 
+.ml-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ml-summary-grid article,
+.recommendation-list article {
+  display: grid;
+  gap: 6px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.ml-summary-grid span,
+.recommendation-list span,
+.recommendation-list small {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.ml-summary-grid strong {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.ml-summary-grid small {
+  color: #40556d;
+}
+
 .workout-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -614,6 +646,10 @@ textarea {
   margin-top: 18px;
 }
 
+.recommendation-engine-panel {
+  margin-top: 18px;
+}
+
 .exercise-panel small {
   display: block;
   margin-top: 5px;
@@ -625,6 +661,21 @@ textarea {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
+}
+
+.recommendation-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.recommendation-list article {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.recommendation-list strong,
+.recommendation-list span {
+  display: block;
 }
 
 .table-row {
@@ -1126,7 +1177,9 @@ textarea {
   .metric-grid,
   .workout-grid,
   .pricing-grid,
-  .profile-form {
+  .profile-form,
+  .ml-summary-grid,
+  .recommendation-list {
     grid-template-columns: 1fr;
   }
 

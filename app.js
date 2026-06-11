@@ -480,13 +480,13 @@ function updateProgressFromHistory() {
   setDailyTask("workout", history.length > 0, false);
 }
 
-const nutritionTargets = {
+let nutritionTargets = {
   calories: 2180,
   protein: 140,
   waterLiters: 3
 };
 
-const meals = [
+let meals = [
   { id: "breakfast", name: "Breakfast", details: "Oats, banana, milk, peanut butter", calories: 520, protein: 28 },
   { id: "lunch", name: "Lunch", details: "Rice, dal, paneer/tofu, salad", calories: 680, protein: 42 },
   { id: "snack", name: "Snack", details: "Fruit, curd, nuts or protein shake", calories: 320, protein: 24 },
@@ -635,6 +635,97 @@ const planVariants = [
 
 let planIndex = 0;
 
+function setText(selector, value) {
+  const element = document.querySelector(selector);
+  if (element && value !== undefined && value !== null) element.textContent = value;
+}
+
+function formatNumber(value) {
+  return Number(value || 0).toLocaleString("en-IN");
+}
+
+function toMealId(name) {
+  return String(name || "meal").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function renderExerciseRecommendations(recommendations) {
+  const list = document.querySelector("#exercise-recommendation-list");
+  if (!list || !recommendations?.exerciseRecommendation?.exercises) return;
+
+  const exerciseData = recommendations.exerciseRecommendation;
+  setText("#exercise-engine-meta", `${exerciseData.level} plan for ${exerciseData.goal.replaceAll("_", " ")}.`);
+  list.innerHTML = exerciseData.exercises.map((exercise) => `
+    <article>
+      <div>
+        <strong>${exercise.name}</strong>
+        <span>${exercise.category} | ${exercise.prescription}</span>
+      </div>
+      <small>${exercise.cue}</small>
+    </article>
+  `).join("");
+}
+
+function applyMlRecommendations(payload) {
+  const recommendations = payload?.recommendations || payload;
+  if (!recommendations) return;
+
+  const bmi = recommendations.bmiPrediction;
+  const burn = recommendations.calorieBurnPrediction;
+  const workout = recommendations.workoutRecommendation;
+  const diet = recommendations.dietRecommendation;
+
+  if (bmi) {
+    setText("#ml-bmi-category", bmi.label);
+    setText("#ml-bmi-value", `BMI ${bmi.bmi || "N/A"} | ${bmi.risk} risk`);
+    setText("#progress-bmi-category", bmi.label);
+    setText("#progress-bmi-detail", bmi.bmi ? `BMI ${bmi.bmi} classification` : "Needs height and weight");
+  }
+
+  if (burn) {
+    setText("#ml-calorie-burn", `${formatNumber(burn.predictedCalories)} kcal`);
+  }
+
+  if (workout) {
+    setText("#ml-workout-title", workout.title);
+    setText("#ml-workout-split", workout.weeklySplit);
+  }
+
+  if (diet) {
+    nutritionTargets = {
+      calories: diet.targetCalories || nutritionTargets.calories,
+      protein: diet.macros?.proteinGrams || nutritionTargets.protein,
+      waterLiters: diet.hydrationLiters || nutritionTargets.waterLiters
+    };
+    if (Array.isArray(diet.meals) && diet.meals.length) {
+      meals = diet.meals.map((meal) => ({
+        id: toMealId(meal.name),
+        name: meal.name,
+        details: meal.details,
+        calories: meal.calories,
+        protein: meal.protein
+      }));
+    }
+    setText("#ml-diet-target", `${formatNumber(diet.targetCalories)} kcal`);
+    setText("#ml-diet-macros", `${diet.macros?.proteinGrams || nutritionTargets.protein}g protein | ${diet.hydrationLiters || nutritionTargets.waterLiters}L water`);
+    setText("#diet-recommendation-text", diet.recommendation);
+    renderNutritionTracker();
+  }
+
+  renderExerciseRecommendations(recommendations);
+}
+
+async function refreshMlRecommendations() {
+  try {
+    const recommendations = await apiFetch("/api/ml/recommendations", {
+      method: "POST",
+      body: JSON.stringify(getAssessmentProfile())
+    });
+    applyMlRecommendations(recommendations);
+  } catch {
+    // Existing static content remains usable if the deployed backend is sleeping or unavailable.
+  }
+}
+
 planButton?.addEventListener("click", async () => {
   planButton.textContent = "Thinking...";
   planButton.disabled = true;
@@ -647,11 +738,15 @@ planButton?.addEventListener("click", async () => {
     });
 
     readinessScore.textContent = assessment.readinessScore;
+    applyMlRecommendations(assessment);
     generateWorkoutPlan(assessmentProfile, assessment);
+    const rec = assessment.recommendations;
     const items = [
       `Training split: ${assessment.workoutPlan?.split || "Personalized weekly training"}.`,
       `Calories: ${assessment.nutritionPlan?.calories || 2180} kcal with ${assessment.nutritionPlan?.proteinGrams || 140} g protein.`,
       `ML injury risk: ${assessment.injuryRisk || assessment.ml?.injuryRisk || 35}%.`,
+      `BMI category: ${rec?.bmiPrediction?.label || assessment.ml?.bmiCategory?.label || "Calculated from height and weight"}.`,
+      `Calorie burn prediction: ${rec?.calorieBurnPrediction?.predictedCalories || "Updated"} kcal for the recommended session.`,
       `Profile analyzed: age ${assessmentProfile.age}, ${assessmentProfile.heightCm} cm, ${assessmentProfile.weightKg} kg, goal ${assessmentProfile.goal}.`
     ];
     insightList.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
@@ -809,6 +904,7 @@ if (savedSubscriptionPlan) setDemoSubscription(savedSubscriptionPlan);
 renderWorkoutManagement();
 renderNutritionTracker();
 renderDailyProgress();
+refreshMlRecommendations();
 updateProgressFromHistory();
 if (getWorkoutSession()) {
   updateSessionDisplay();

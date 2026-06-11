@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FitAI - Your Personal AI Fitness Coach</title>
-    <link rel="stylesheet" href="./styles.css?v=20260609-4" />
+    <link rel="stylesheet" href="./styles.css?v=20260611-1" />
   </head>
   <body>
     <div class="app-shell">
@@ -217,6 +217,28 @@
                 <li>Equipment: dumbbells, resistance bands, treadmill, yoga mat.</li>
                 <li>Session length: 38-45 minutes with 8-minute mobility block.</li>
               </ul>
+              <div class="ml-summary-grid" id="ml-summary-grid">
+                <article>
+                  <span>BMI Category</span>
+                  <strong id="ml-bmi-category">Healthy range</strong>
+                  <small id="ml-bmi-value">BMI 25.8</small>
+                </article>
+                <article>
+                  <span>Calorie Burn Prediction</span>
+                  <strong id="ml-calorie-burn">320 kcal</strong>
+                  <small>Regression-style estimate</small>
+                </article>
+                <article>
+                  <span>Workout Recommendation</span>
+                  <strong id="ml-workout-title">Strength + cardio plan</strong>
+                  <small id="ml-workout-split">4 workout days, 2 cardio/mobility days</small>
+                </article>
+                <article>
+                  <span>Diet Recommendation</span>
+                  <strong id="ml-diet-target">2,180 kcal</strong>
+                  <small id="ml-diet-macros">140g protein target</small>
+                </article>
+              </div>
             </section>
           </div>
         </section>
@@ -241,6 +263,17 @@
               <button class="primary-action compact" id="start-selected-workout" type="button">Start Workout</button>
             </div>
             <div class="exercise-table" id="exercise-table"></div>
+          </section>
+
+          <section class="panel recommendation-engine-panel">
+            <div class="section-heading">
+              <div>
+                <h3>Exercise Recommendation Engine</h3>
+                <small id="exercise-engine-meta">Recommended from goal, BMI, readiness, and health notes.</small>
+              </div>
+              <span class="pill">ML</span>
+            </div>
+            <div class="recommendation-list" id="exercise-recommendation-list"></div>
           </section>
 
           <section class="panel live-session-panel" id="live-session-panel" hidden>
@@ -299,6 +332,7 @@
                 <h3>Today's Meals</h3>
                 <button class="text-button" id="reset-nutrition" type="button">Reset</button>
               </div>
+              <p class="recommendation" id="diet-recommendation-text">Protein at every meal and most carbs near training.</p>
               <div class="meal-list" id="meal-list"></div>
             </section>
           </div>
@@ -338,6 +372,7 @@
             <article class="metric-card"><span>Daily Score</span><strong id="daily-score">0%</strong><small>Checklist completion</small></article>
             <article class="metric-card"><span>Workout Completion</span><strong id="progress-completion-rate">92%</strong><small>Saved workout sessions</small></article>
             <article class="metric-card"><span>Calories Burned</span><strong id="progress-calories-burned">18.6k</strong><small>This month</small></article>
+            <article class="metric-card"><span>BMI Category</span><strong id="progress-bmi-category">Healthy</strong><small id="progress-bmi-detail">ML classification</small></article>
             <article class="metric-card"><span>Meals Logged</span><strong id="progress-meals-logged">0/4</strong><small>Today's diet tracker</small></article>
           </div>
         </section>
@@ -459,6 +494,6 @@
       </main>
     </div>
 
-    <script src="./app.js?v=20260609-4"></script>
+    <script src="./app.js?v=20260611-1"></script>
   </body>
 </html>

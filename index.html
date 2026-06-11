@@ -68,8 +68,8 @@
             <button class="icon-button" type="button" title="Workout reminder" aria-label="Workout reminder">T</button>
             <button class="icon-button" type="button" title="Hydration alert" aria-label="Hydration alert">H</button>
             <div class="profile-chip">
-              <span>GA</span>
-              <strong>Garret</strong>
+              <span>KP</span>
+              <strong>Kundan</strong>
             </div>
           </div>
         </header>
@@ -369,6 +369,10 @@
         </section>
 
         <section class="view" id="subscriptions" data-title="Subscription Plans">
+          <div class="section-heading">
+            <h3>Choose Access</h3>
+            <span class="pill" id="billing-status">Stripe Checkout ready</span>
+          </div>
           <div class="pricing-grid">
             <article class="price-card">
               <span>Free</span>
@@ -379,20 +383,20 @@
             <article class="price-card featured">
               <span>Monthly Premium</span>
               <strong>INR 499</strong>
-              <p>Unlimited AI coach, meal plans, progress analytics.</p>
-              <button class="primary-action" type="button">Upgrade</button>
+              <p>Unlimited AI coach, meal plans, workout tracking, and progress analytics.</p>
+              <button class="primary-action checkout-button" data-plan-id="monthly" type="button">Upgrade</button>
             </article>
             <article class="price-card">
               <span>Quarterly Premium</span>
               <strong>INR 1,299</strong>
-              <p>Premium access with discounted billing cycle.</p>
-              <button class="secondary-action" type="button">Choose</button>
+              <p>Premium access with discounted billing and admin-visible subscription status.</p>
+              <button class="secondary-action checkout-button" data-plan-id="quarterly" type="button">Choose</button>
             </article>
             <article class="price-card">
               <span>Yearly Premium</span>
               <strong>INR 4,499</strong>
-              <p>Best value with advanced health analytics.</p>
-              <button class="secondary-action" type="button">Choose</button>
+              <p>Best value with advanced analytics, AI insights, and priority coaching features.</p>
+              <button class="secondary-action checkout-button" data-plan-id="yearly" type="button">Choose</button>
             </article>
           </div>
         </section>
@@ -402,7 +406,7 @@
             <section class="panel">
               <div class="section-heading">
                 <h3>Platform Metrics</h3>
-                <span class="pill">RBAC</span>
+                <span class="pill">Live ops</span>
               </div>
               <div class="admin-stats">
                 <span><strong>12,480</strong> users</span>
@@ -413,15 +417,41 @@
             </section>
             <section class="panel">
               <div class="section-heading">
-                <h3>Operations</h3>
-                <span class="pill">Content + support</span>
+                <h3>Admin Actions</h3>
+                <span class="pill">RBAC</span>
               </div>
               <div class="ops-list">
-                <button type="button">Manage users</button>
-                <button type="button">Workout content</button>
-                <button type="button">Diet templates</button>
-                <button type="button">Subscription billing</button>
-                <button type="button">AI usage monitor</button>
+                <button type="button"><strong>Users</strong><small>Review profiles, goals, and account status</small></button>
+                <button type="button"><strong>Workout Library</strong><small>Approve exercises, levels, and safety cues</small></button>
+                <button type="button"><strong>Diet Templates</strong><small>Manage meals, macros, and dietary rules</small></button>
+                <button type="button"><strong>Billing</strong><small>Track Stripe plans, churn, and upgrades</small></button>
+                <button type="button"><strong>AI Monitor</strong><small>Watch prompts, tokens, cost, and fallback rate</small></button>
+              </div>
+            </section>
+          </div>
+          <div class="admin-grid admin-detail-grid">
+            <section class="panel">
+              <div class="section-heading">
+                <h3>Subscription Health</h3>
+                <span class="pill">Stripe</span>
+              </div>
+              <div class="admin-table">
+                <div><span>Plan</span><span>Users</span><span>Revenue</span><span>Status</span></div>
+                <div><span>Monthly</span><span>6,420</span><span>INR 32.0L</span><span>Active</span></div>
+                <div><span>Quarterly</span><span>2,180</span><span>INR 28.3L</span><span>Growing</span></div>
+                <div><span>Yearly</span><span>1,040</span><span>INR 46.8L</span><span>Best value</span></div>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="section-heading">
+                <h3>Review Queue</h3>
+                <span class="pill">Needs action</span>
+              </div>
+              <div class="review-list">
+                <span><strong>18</strong> workout videos awaiting approval</span>
+                <span><strong>7</strong> diet templates flagged for review</span>
+                <span><strong>24</strong> support tickets open</span>
+                <span><strong>3</strong> high AI usage accounts</span>
               </div>
             </section>
           </div>

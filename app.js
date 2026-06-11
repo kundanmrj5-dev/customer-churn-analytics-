@@ -669,6 +669,7 @@ planButton?.addEventListener("click", async () => {
 const chatForm = document.querySelector("#chat-form");
 const chatMessage = document.querySelector("#chat-message");
 const chatThread = document.querySelector("#chat-thread");
+const billingStatus = document.querySelector("#billing-status");
 
 const coachReplies = [
   "I can do that. I'll keep the plan joint-friendly and prioritize controlled tempo over intensity.",
@@ -755,6 +756,38 @@ document.querySelector("#water-minus")?.addEventListener("click", () => changeWa
 document.querySelector("#reset-nutrition")?.addEventListener("click", resetNutrition);
 document.querySelectorAll("[data-progress-task]").forEach((checkbox) => {
   checkbox.addEventListener("change", () => setDailyTask(checkbox.dataset.progressTask, checkbox.checked));
+});
+document.querySelectorAll(".checkout-button").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const originalText = button.textContent;
+    button.textContent = "Opening...";
+    button.disabled = true;
+    if (billingStatus) billingStatus.textContent = "Creating checkout";
+
+    try {
+      const result = await apiFetch("/api/payments/checkout", {
+        method: "POST",
+        body: JSON.stringify({
+          planId: button.dataset.planId,
+          baseUrl: window.location.origin + window.location.pathname
+        })
+      });
+
+      if (result.provider === "mock") {
+        if (billingStatus) billingStatus.textContent = "Stripe setup needed";
+        alert(result.message || "Stripe is not configured yet. Add Stripe keys and price IDs on Render.");
+        return;
+      }
+
+      window.location.href = result.checkoutUrl;
+    } catch {
+      if (billingStatus) billingStatus.textContent = "Checkout failed";
+      alert("Unable to start checkout. Please check backend and Stripe settings.");
+    } finally {
+      button.textContent = originalText;
+      button.disabled = false;
+    }
+  });
 });
 
 renderWorkoutManagement();

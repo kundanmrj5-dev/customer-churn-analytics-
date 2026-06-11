@@ -16,6 +16,40 @@ const port = Number(process.env.PORT || 4000);
 const jwtSecret = process.env.JWT_SECRET || "development-secret";
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 const db = process.env.DATABASE_URL ? new Pool({ connectionString: process.env.DATABASE_URL }) : null;
+const subscriptionPlans = [
+  {
+    id: "free",
+    name: "Free",
+    priceInr: 0,
+    interval: "free",
+    stripePriceId: null,
+    features: ["Basic workouts", "Habit tracking", "Limited AI chat"]
+  },
+  {
+    id: "monthly",
+    name: "Monthly Premium",
+    priceInr: 499,
+    interval: "month",
+    stripePriceId: process.env.STRIPE_PRICE_MONTHLY,
+    features: ["Unlimited AI coach", "Meal planning", "Progress analytics"]
+  },
+  {
+    id: "quarterly",
+    name: "Quarterly Premium",
+    priceInr: 1299,
+    interval: "quarter",
+    stripePriceId: process.env.STRIPE_PRICE_QUARTERLY,
+    features: ["Discounted billing", "Advanced reports", "Priority recommendations"]
+  },
+  {
+    id: "yearly",
+    name: "Yearly Premium",
+    priceInr: 4499,
+    interval: "year",
+    stripePriceId: process.env.STRIPE_PRICE_YEARLY,
+    features: ["Best value", "Advanced health analytics", "Premium AI coaching"]
+  }
+];
 
 app.use(helmet());
 app.use(cors({ origin: true, credentials: true }));
@@ -165,25 +199,42 @@ app.post("/api/ml/form-check", requireAuth, async (req, res) => {
 });
 
 app.get("/api/subscriptions/plans", async (_req, res) => {
-  res.json([
-    { id: "free", name: "Free", priceInr: 0 },
-    { id: "monthly", name: "Monthly Premium", priceInr: 499 },
-    { id: "quarterly", name: "Quarterly Premium", priceInr: 1299 },
-    { id: "yearly", name: "Yearly Premium", priceInr: 4499 }
-  ]);
+  res.json(subscriptionPlans.map(({ stripePriceId, ...plan }) => ({
+    ...plan,
+    checkoutReady: Boolean(stripe && stripePriceId)
+  })));
 });
 
-app.post("/api/payments/checkout", requireAuth, async (req, res) => {
-  if (!stripe) return res.json({ provider: "mock", checkoutUrl: "https://checkout.example/fitai-demo", plan: req.body.planId });
+app.post("/api/payments/checkout", requireAuth, async (req, res, next) => {
+  try {
+    const plan = subscriptionPlans.find((item) => item.id === req.body.planId);
+    if (!plan || plan.id === "free") return res.status(400).json({ error: "Choose a paid plan" });
 
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    line_items: [{ price: req.body.stripePriceId, quantity: 1 }],
-    success_url: req.body.successUrl,
-    cancel_url: req.body.cancelUrl
-  });
+    if (!stripe || !plan.stripePriceId) {
+      return res.json({
+        provider: "mock",
+        checkoutUrl: req.body.successUrl || "https://kundanmrj5-dev.github.io/FitAI/",
+        plan: plan.id,
+        message: "Stripe is not fully configured. Add STRIPE_SECRET_KEY and matching STRIPE_PRICE_* variables on Render."
+      });
+    }
 
-  res.json({ provider: "stripe", checkoutUrl: session.url });
+    const baseUrl = req.body.baseUrl || req.headers.origin || "https://kundanmrj5-dev.github.io/FitAI";
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      line_items: [{ price: plan.stripePriceId, quantity: 1 }],
+      success_url: `${baseUrl}?checkout=success&plan=${plan.id}`,
+      cancel_url: `${baseUrl}?checkout=cancelled&plan=${plan.id}`,
+      metadata: {
+        userId: req.user.sub,
+        planId: plan.id
+      }
+    });
+
+    res.json({ provider: "stripe", checkoutUrl: session.url, plan: plan.id });
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.post("/api/notifications/register", requireAuth, async (req, res) => {

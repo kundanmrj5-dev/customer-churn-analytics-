@@ -901,6 +901,10 @@ textarea {
   grid-template-columns: 1.3fr 0.7fr;
 }
 
+.admin-detail-grid {
+  margin-top: 18px;
+}
+
 .line-chart {
   position: relative;
   height: 270px;
@@ -937,6 +941,56 @@ textarea {
   border-radius: 8px;
   background: #f7fafc;
   color: #334155;
+}
+
+.admin-stats span strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1.45rem;
+  color: var(--ink);
+}
+
+.admin-table {
+  display: grid;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-table div {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr 1fr 0.9fr;
+  gap: 12px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.admin-table div:first-child {
+  border-top: 0;
+  background: #f0f5fb;
+  font-weight: 800;
+}
+
+.review-list {
+  display: grid;
+  gap: 10px;
+}
+
+.review-list span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+  color: #334155;
+}
+
+.review-list strong {
+  color: var(--primary);
+  font-size: 1.25rem;
 }
 
 .chat-layout {
@@ -981,8 +1035,19 @@ textarea {
   background: #fbfdff;
   color: var(--ink);
   text-align: left;
-  padding: 0 12px;
+  padding: 10px 12px;
   font-weight: 700;
+}
+
+.ops-list button strong,
+.ops-list button small {
+  display: block;
+}
+
+.ops-list button small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-weight: 600;
 }
 
 .pricing-grid {
@@ -1074,7 +1139,8 @@ textarea {
   }
 
   .goal-row,
-  .table-row {
+  .table-row,
+  .admin-table div {
     grid-template-columns: 1fr;
   }
 

@@ -84,6 +84,42 @@ If `OPENAI_API_KEY` is missing, the backend still works in `local-fallback` mode
 - `POST /api/ai/assessment` generates personalized workout and nutrition plans.
 - `POST /api/chat` answers fitness, nutrition, and wellness questions.
 - `POST /api/ml/readiness` returns BMI, readiness score, injury risk, and intensity.
+- `POST /api/ml/recommendations` returns workout, calorie burn, BMI, exercise, and diet recommendations.
 - `POST /api/ml/form-check` scores sample exercise form metrics.
 
 The deployed GitHub Pages site is static. For live AI in production, deploy the backend to Render, Railway, Fly.io, or AWS, then point the frontend to that backend URL.
+
+## Machine Learning Stack
+
+FitAI now includes a Python ML workflow in `ml/`:
+
+- Scikit-learn: main practical ML stack for tabular fitness data.
+- Regression model: predicts calories burned from age, weight, goal, activity level, and workout duration.
+- Classification model: predicts BMI category from profile data.
+- Recommendation model: recommends exercise category and diet plan from similar user profiles.
+- Dataset: `ml/datasets/fitai_training_sample.csv`.
+- Model training: `ml/train_models.py`.
+- Prediction example: `ml/predict.py`.
+- PyTorch demo: `ml/pytorch_readiness_demo.py`.
+- TensorFlow demo: `ml/tensorflow_readiness_demo.py`.
+
+Run:
+
+```powershell
+cd "C:\Users\Asus\OneDrive\Documents\AI FITNESS TRACKER\ml"
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+python train_models.py
+python predict.py
+```
+
+Optional TensorFlow and PyTorch demos:
+
+```powershell
+pip install -r requirements-deep-learning.txt
+python pytorch_readiness_demo.py
+python tensorflow_readiness_demo.py
+```
+
+For production, train models from real anonymized user data, save the model artifacts, and serve predictions through the existing Node.js `/api/ml/recommendations` endpoint or a separate Python ML microservice.

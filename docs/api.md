@@ -23,6 +23,7 @@ Base URL: `/api`
 - `GET /progress` returns weight, BMI, body fat, completion rate, calories, achievements, and streaks.
 - `POST /chat` sends a fitness, nutrition, or wellness prompt to the AI assistant.
 - `POST /ml/readiness` returns local ML readiness, injury-risk, BMI, and intensity scoring.
+- `POST /ml/recommendations` returns workout recommendation, calorie burn regression output, BMI classification, exercise recommendations, and diet recommendation.
 - `POST /ml/form-check` returns local ML form score, risk level, and movement corrections.
 
 ## Subscriptions, Payments, And Notifications

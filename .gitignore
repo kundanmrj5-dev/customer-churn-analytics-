@@ -7,3 +7,4 @@ ml/models/
 node_modules/
 .env
 backend/.env
+credit-card-approval-ml/

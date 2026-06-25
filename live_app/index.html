@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Churn Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Kaggle Telco Dataset</p>
+      <h1>Customer Churn Analytics</h1>
+    </div>
+    <label class="upload-button" for="csvUpload">
+      <span>Upload CSV</span>
+      <input id="csvUpload" type="file" accept=".csv,.xlsx,.xls">
+    </label>
+  </header>
+
+  <main>
+    <section id="statusPanel" class="status-panel">
+      <div>
+        <h2>Load Kaggle Data</h2>
+        <p>
+          Place <strong>WA_Fn-UseC_-Telco-Customer-Churn.csv</strong> in the project
+          <strong>data</strong> folder, or upload it here.
+        </p>
+      </div>
+    </section>
+
+    <section class="metric-grid" aria-label="Key churn metrics">
+      <article class="metric">
+        <span>Total Customers</span>
+        <strong id="totalCustomers">-</strong>
+      </article>
+      <article class="metric">
+        <span>Churn Rate</span>
+        <strong id="churnRate">-</strong>
+      </article>
+      <article class="metric">
+        <span>Retained</span>
+        <strong id="retainedCustomers">-</strong>
+      </article>
+      <article class="metric">
+        <span>Monthly Revenue Lost</span>
+        <strong id="monthlyRevenueLost">-</strong>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel">
+        <div class="panel-title">
+          <h2 id="contractTitle">Churn By Contract</h2>
+          <span id="contractSubtitle">Which contract type loses customers?</span>
+        </div>
+        <div id="contractChart" class="bar-chart"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title">
+          <h2 id="tenureTitle">Churn By Tenure</h2>
+          <span id="tenureSubtitle">When do customers leave?</span>
+        </div>
+        <div id="tenureChart" class="bar-chart"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title">
+          <h2 id="paymentTitle">Payment Method Risk</h2>
+          <span id="paymentSubtitle">Churn rate by payment method</span>
+        </div>
+        <div id="paymentChart" class="bar-chart"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title">
+          <h2 id="chargesTitle">Monthly Charges</h2>
+          <span id="chargesSubtitle">Do high charges increase churn?</span>
+        </div>
+        <div id="chargesChart" class="bar-chart"></div>
+      </article>
+    </section>
+
+    <section class="wide-grid">
+      <article class="panel insights">
+        <div class="panel-title">
+          <h2>Key Insights From Uploaded Data</h2>
+          <span>Auto-generated after CSV analysis</span>
+        </div>
+        <div id="insightsList" class="insight-list">
+          <div class="empty-state">Upload a CSV to generate churn insights.</div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title">
+          <h2>High-Risk Retained Customers</h2>
+          <span>Customers to target before they churn</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr id="riskTableHeader">
+                <th>Customer</th>
+                <th>Tenure</th>
+                <th>Contract</th>
+                <th>Payment</th>
+                <th>Monthly</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody id="riskTable">
+              <tr><td colspan="6">Load data to see high-risk customers.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel recommendations">
+        <div class="panel-title">
+          <h2>Business Recommendations</h2>
+          <span>Retention actions from analytics</span>
+        </div>
+        <ul id="recommendations">
+          <li>Load the Kaggle dataset to generate recommendations.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <script src="vendor/xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

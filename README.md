@@ -12,6 +12,10 @@ pinned: false
 
 SQL-based customer churn analytics project using the Telco Customer Churn dataset. The project includes SQL analysis, a browser dashboard, and an optional Python machine learning extension.
 
+## Live Demo
+
+[Open the Customer Churn Analytics Dashboard](https://customer-churn-analytics-ksvy-bsr4du1js.vercel.app)
+
 ## Dashboard Screenshot
 
 ![Customer Churn Dashboard](docs/screenshots/dashboard.png)

@@ -194,9 +194,7 @@ After running the project, the following files are automatically generated:
 
 ## 👨‍💻 Author
 
-<p align="center">
-<b>Kundan Pandey</b>
-</p>
+**Kundan Pandey**
 
 ## 📄 License
 

@@ -101,17 +101,20 @@ The ML script reports Accuracy, Precision, Recall, F1 Score, and ROC-AUC.
 
 ## Streamlit App
 
-This project also includes a Streamlit dashboard:
+## 🌐 Launch the Streamlit Dashboard
 
-```text
-streamlit_app.py
-```
+Start the interactive dashboard:
 
-Run it locally:
-
-```powershell
-pip install -r requirements.txt
+```bash
 streamlit run streamlit_app.py
 ```
 
-The app lets you upload a Telco churn CSV or Excel workbook and view churn metrics, charts, high-risk customers, and business recommendations.
+### Dashboard Features
+
+* 📂 Upload CSV or Excel datasets
+* 📊 Explore interactive charts
+* 🤖 Predict customer churn
+* ⚠️ Identify high-risk customers
+* 💡 Generate business insights
+* 📈 View churn metrics and analytics
+

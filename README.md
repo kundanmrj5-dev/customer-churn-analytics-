@@ -29,6 +29,19 @@ SQL-based customer churn analytics project using the Telco Customer Churn datase
 <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20App-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
 </a>
 </p>
+
+## ✨ Features
+
+- 📊 Predict customer churn using a machine learning model.
+- ⚡ Interactive web application built with Streamlit.
+- 📁 Upload customer datasets for analysis.
+- 📈 Generate real-time churn predictions.
+- 🤖 XGBoost-powered classification model.
+- 📋 View prediction results in an intuitive dashboard.
+- 📥 Export prediction results for further analysis.
+- 🔍 Analyze customer behavior to identify churn risk.
+- 📂 Excel file support using OpenPyXL.
+- 🚀 Fast and user-friendly interface.
 ## Dashboard Screenshot
 
 ![Customer Churn Dashboard](docs/screenshots/dashboard.png)

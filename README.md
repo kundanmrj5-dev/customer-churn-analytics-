@@ -41,6 +41,23 @@ SQL-based customer churn analytics project using the Telco Customer Churn datase
 - 🔍 Analyze customer behavior to identify churn risk.
 - 📂 Excel file support using OpenPyXL.
 - 🚀 Fast and user-friendly interface.
+
+## 🛠️ Tech Stack
+
+| Category                 | Technologies                 |
+| ------------------------ | ---------------------------- |
+| **Programming Language** | Python                       |
+| **Machine Learning**     | Scikit-learn, XGBoost        |
+| **Data Analysis**        | Pandas                       |
+| **Data Processing**      | OpenPyXL                     |
+| **Web Framework**        | Streamlit                    |
+| **Database**             | SQL                          |
+| **Dataset**              | Telco Customer Churn Dataset |
+| **Version Control**      | Git, GitHub                  |
+| **Deployment**           | Vercel                       |
+
+
+  
 ## Dashboard Screenshot
 
 ![Customer Churn Dashboard](docs/screenshots/dashboard.png)

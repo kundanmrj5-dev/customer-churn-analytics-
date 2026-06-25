@@ -1,0 +1,13 @@
+customerID,gender,SeniorCitizen,Partner,Dependents,tenure,PhoneService,MultipleLines,InternetService,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,StreamingTV,StreamingMovies,Contract,PaperlessBilling,PaymentMethod,MonthlyCharges,TotalCharges,Churn
+T001,Female,0,Yes,No,2,Yes,No,Fiber optic,No,No,No,No,Yes,Yes,Month-to-month,Yes,Electronic check,89.90,179.80,Yes
+T002,Male,0,No,No,36,Yes,Yes,DSL,Yes,Yes,No,Yes,No,No,Two year,No,Credit card,55.20,1987.20,No
+T003,Female,1,No,No,5,Yes,No,Fiber optic,No,No,Yes,No,Yes,No,Month-to-month,Yes,Electronic check,95.50,477.50,Yes
+T004,Male,0,Yes,Yes,48,Yes,No,DSL,Yes,Yes,Yes,Yes,No,Yes,One year,No,Bank transfer,62.10,2980.80,No
+T005,Female,0,No,No,8,Yes,No,Fiber optic,No,No,No,No,Yes,Yes,Month-to-month,Yes,Electronic check,84.75,678.00,Yes
+T006,Male,1,Yes,No,60,Yes,Yes,Fiber optic,Yes,Yes,Yes,Yes,Yes,Yes,Two year,No,Credit card,99.10,5946.00,No
+T007,Female,0,No,Yes,14,Yes,No,DSL,No,Yes,No,No,No,No,Month-to-month,Yes,Mailed check,49.80,697.20,No
+T008,Male,0,No,No,3,Yes,No,Fiber optic,No,No,No,No,Yes,No,Month-to-month,Yes,Electronic check,79.20,237.60,Yes
+T009,Female,1,Yes,No,24,Yes,Yes,Fiber optic,No,Yes,Yes,No,Yes,Yes,One year,Yes,Bank transfer,88.40,2121.60,Yes
+T010,Male,0,Yes,Yes,72,Yes,Yes,DSL,Yes,Yes,Yes,Yes,No,No,Two year,No,Credit card,44.30,3189.60,No
+T011,Female,0,No,No,1,Yes,No,Fiber optic,No,No,No,No,No,Yes,Month-to-month,Yes,Electronic check,73.25,73.25,Yes
+T012,Male,0,Yes,No,28,Yes,No,DSL,Yes,No,Yes,Yes,No,No,One year,No,Bank transfer,58.70,1643.60,No

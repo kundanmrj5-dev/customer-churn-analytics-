@@ -78,21 +78,33 @@ customer-churn-analytics/
 ```
 
 
-## Run The Live App
+## 🚀 Run the Application
 
-Start a local server from the project folder:
+### 1. Clone the Repository
 
-```powershell
-python -m http.server 8000 --bind 127.0.0.1
+```bash
+git clone https://github.com/kundanmrj5-dev/customer-churn-analytics-.git
+cd customer-churn-analytics-
 ```
 
-Open:
+### 2. Install Dependencies
 
-```text
-http://127.0.0.1:8000/live_app/
+```bash
+pip install -r requirements.txt
 ```
 
-Upload the Telco churn CSV or supported Excel workbook to view analytics.
+### 3. Launch the Streamlit Dashboard
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Once the server starts, open the URL displayed in your terminal (typically `http://localhost:8501`) in your web browser.
+
+Alternatively, access the deployed application here:
+
+**🌐 Live Demo:** https://customer-churn-analytics-ksvy-bsr4du1js.vercel.app
+
 
 ## 🗄️ SQL Analysis
 

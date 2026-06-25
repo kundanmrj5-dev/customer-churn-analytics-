@@ -45,14 +45,21 @@ SQL-based customer churn analytics project using the Telco Customer Churn datase
 
 ![Customer Churn Dashboard](docs/screenshots/dashboard.png)
 
-## Project Files
+## Project Structure 
+```text
+customer-churn-analytics/
+│
+├── 📂 data/
+├── 📂 docs/
+│   └── screenshots/
+├── 📂 live_app/
+├── 📄 Customer_Churn_SQL_Project.sql
+├── 📄 Customer_Churn_ML_Model.py
+├── 📄 requirements.txt
+├── 📄 README.md
+└── 📄 LICENSE
+```
 
-- `Customer_Churn_SQL_Project.sql` - SQL schema, import flow, churn analytics queries, revenue loss, segmentation, and high-risk customer identification.
-- `Customer_Churn_SQL_Project_README.md` - Full project documentation.
-- `Customer_Churn_ML_Model.py` - Optional ML pipeline using Logistic Regression, Random Forest, and XGBoost if installed.
-- `live_app/` - Local browser dashboard for uploading and analyzing churn data.
-- `data/` - Dataset folder.
-- `requirements.txt` - Python dependencies for the ML extension.
 
 ## Run The Live App
 

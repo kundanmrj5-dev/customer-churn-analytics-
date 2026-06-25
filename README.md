@@ -94,16 +94,20 @@ http://127.0.0.1:8000/live_app/
 
 Upload the Telco churn CSV or supported Excel workbook to view analytics.
 
-## SQL Analysis
+## 🗄️ SQL Analysis
 
-- Overall churn rate
-- Contract type churn
-- Monthly charges analysis
-- Customer tenure segmentation
-- Payment method analysis
-- Revenue loss due to churn
-- High-risk retained customers
-- Business recommendations
+The SQL module performs end-to-end business analytics on the Telco Customer Churn dataset, including:
+
+* 📊 Customer segmentation
+* 📉 Churn rate analysis
+* 💰 Revenue loss estimation
+* 🌐 Internet service analysis
+* 💳 Payment method analysis
+* 📞 Tech support impact analysis
+* ⏳ Tenure-based churn analysis
+* ⚠️ High-risk customer identification
+* 💡 Business recommendations for customer retention
+
 
 ## 🤖 Train & Evaluate the Machine Learning Model
 

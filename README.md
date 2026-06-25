@@ -88,17 +88,13 @@ Upload the Telco churn CSV or supported Excel workbook to view analytics.
 - High-risk retained customers
 - Business recommendations
 
-## Machine Learning Extension
+## 🤖 Train & Evaluate the Machine Learning Model
 
-Run:
+Run the following commands to install the required dependencies and evaluate the customer churn prediction models.
 
-```powershell
+```bash
 pip install -r requirements.txt
 python Customer_Churn_ML_Model.py
-```
-
-The ML script reports Accuracy, Precision, Recall, F1 Score, and ROC-AUC.
-
 ## Streamlit App
 
 ## 🌐 Launch the Streamlit Dashboard

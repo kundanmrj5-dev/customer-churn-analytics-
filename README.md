@@ -118,3 +118,21 @@ streamlit run streamlit_app.py
 * 💡 Generate business insights
 * 📈 View churn metrics and analytics
 
+## Workflow 
+            
+Dataset
+   │
+   ▼
+Data Cleaning
+   │
+   ▼
+Feature Engineering
+   │
+   ▼
+XGBoost Model
+   │
+   ▼
+Prediction
+   │
+   ▼
+Interactive Dashboard

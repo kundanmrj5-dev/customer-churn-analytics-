@@ -193,8 +193,7 @@ After running the project, the following files are automatically generated:
 * 📈 Helps businesses prioritize high-risk customers for proactive engagement.
 
 ## 👨‍💻 Author
-
-**Kundan Pandey**
+Kundan Pandey
 
 ## 📄 License
 

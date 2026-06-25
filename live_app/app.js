@@ -619,6 +619,32 @@ function renderDemographicDashboard(rows, sourceLabel, fileSize = 0) {
 }
 
 async function loadDefaultCsv() {
+  const demoFile = new URLSearchParams(window.location.search).get("demo");
+  if (demoFile) {
+    const demoUrl = `../data/${encodeURIComponent(demoFile)}`;
+    try {
+      setLoadingStatus("Loading Demo Dataset", "Opening a sample churn CSV for the README dashboard preview.", [
+        { label: "File Name", value: demoFile },
+        { label: "Source", value: "Project data folder" },
+      ]);
+      const response = await fetch(demoUrl, { cache: "no-store" });
+      if (!response.ok) throw new Error("Demo CSV not found");
+      const text = await response.text();
+      const fileSize = Number(response.headers.get("content-length")) || text.length;
+      renderDashboard(parseCsv(text), `Demo ${demoFile}`, fileSize);
+      return;
+    } catch (error) {
+      els.statusPanel.className = "status-panel warning";
+      els.statusPanel.innerHTML = `
+        <div>
+          <h2>Could Not Load Demo CSV</h2>
+          <p>${error.message}</p>
+        </div>
+      `;
+      return;
+    }
+  }
+
   els.statusPanel.className = "status-panel warning";
   els.statusPanel.innerHTML = `
     <div>

@@ -165,3 +165,40 @@ Prediction
    │
    ▼
 Interactive Dashboard
+
+
+## 📈 Results
+
+The machine learning pipeline successfully trains and evaluates multiple classification models to predict customer churn. Model performance is assessed using **Accuracy**, **Precision**, **Recall**, **F1-Score**, and **ROC-AUC**. The best-performing model is automatically selected based on the highest ROC-AUC score.
+
+### Performance Metrics
+
+| Metric       | Description                                                                     |
+| ------------ | ------------------------------------------------------------------------------- |
+| 🎯 Accuracy  | Measures the overall percentage of correctly classified customers.              |
+| 🎯 Precision | Measures how accurately the model identifies customers who are likely to churn. |
+
+### Generated Outputs
+
+After running the project, the following files are automatically generated:
+
+* 📄 **model_metrics.csv** – Stores the evaluation metrics for all trained models.
+* 📄 **high_risk_customers.csv** – Lists customers predicted to have a high probability of churn.
+
+### Business Outcome
+
+* 📊 Identifies customers with a high risk of churn.
+* 💰 Estimates the business impact of customer churn.
+* 🎯 Supports data-driven customer retention strategies.
+* 📈 Helps businesses prioritize high-risk customers for proactive engagement.
+
+## 👨‍💻 Author
+
+<p align="center">
+<b>Kundan Pandey</b>
+</p>
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for more details.
+

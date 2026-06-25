@@ -2,6 +2,10 @@
 
 SQL-based customer churn analytics project using the Telco Customer Churn dataset. The project includes SQL analysis, a browser dashboard, and an optional Python machine learning extension.
 
+## Dashboard Screenshot
+
+![Customer Churn Dashboard](docs/screenshots/dashboard.png)
+
 ## Project Files
 
 - `Customer_Churn_SQL_Project.sql` - SQL schema, import flow, churn analytics queries, revenue loss, segmentation, and high-risk customer identification.

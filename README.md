@@ -1,3 +1,13 @@
+---
+title: Customer Churn Analytics
+emoji: 📊
+colorFrom: teal
+colorTo: amber
+sdk: streamlit
+app_file: streamlit_app.py
+pinned: false
+---
+
 # Customer Churn Prediction & Analytics
 
 SQL-based customer churn analytics project using the Telco Customer Churn dataset. The project includes SQL analysis, a browser dashboard, and an optional Python machine learning extension.
@@ -52,3 +62,20 @@ python Customer_Churn_ML_Model.py
 ```
 
 The ML script reports Accuracy, Precision, Recall, F1 Score, and ROC-AUC.
+
+## Streamlit App
+
+This project also includes a Streamlit dashboard:
+
+```text
+streamlit_app.py
+```
+
+Run it locally:
+
+```powershell
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+The app lets you upload a Telco churn CSV or Excel workbook and view churn metrics, charts, high-risk customers, and business recommendations.
